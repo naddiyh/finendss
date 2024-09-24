@@ -1,9 +1,18 @@
 plugins {
-    alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("com.android.application")
+    id("com.google.gms.google-services")
 }
 
 android {
+    signingConfigs {
+        getByName("debug") {
+            storeFile = file("C:\\Users\\ASUS\\Documents\\KeyStoreFinends\\keystore.jks")
+            storePassword = "shalatberjaya"
+            keyAlias = "keyfinends"
+            keyPassword = "shalatberjaya"
+        }
+    }
     namespace = "com.unos.finends"
     compileSdk = 34
 
@@ -18,6 +27,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        signingConfig = signingConfigs.getByName("debug")
     }
 
     buildTypes {
@@ -50,7 +60,7 @@ android {
 }
 
 dependencies {
-
+    implementation ("io.coil-kt:coil-compose:2.1.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -59,11 +69,29 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.volley)
+    implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.play.services.auth)
+    implementation(libs.firebase.auth)
     testImplementation(libs.junit)
+    implementation(libs.androidx.navigation.compose)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+//    implementation(libs.firebase.analytics)
+//    implementation(libs.firebase.bom)
+    implementation (libs.google.firebase.auth.ktx)
+
+    //Credential
+    implementation (platform("com.google.firebase:firebase-bom:33.3.0"))
+    implementation("com.google.android.gms:play-services-auth:21.2.0")
+    implementation("androidx.credentials:credentials:1.2.2")
+    implementation ("androidx.credentials:credentials-play-services-auth:1.2.2")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
+    implementation("com.google.firebase:firebase-analytics")
 }

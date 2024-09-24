@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "208330382096",
+    "project_id": "finends-74ece",
+    "storage_bucket": "finends-74ece.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:208330382096:android:105b1582967d3b662b6395",
+        "android_client_info": {
+          "package_name": "com.unos.finends"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "208330382096-c771vhq8k6b7e3am0c5le6n39crm2lup.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.unos.finends",
+            "certificate_hash": "684349925d27ae87fde7d5e65637c6ece1d692df"
+          }
+        },
+        {
+          "client_id": "208330382096-dirh84ott4cst572d4sld2trcqe9f8ps.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBUWFDTfXk01-KpWoafKnlhkaMvl7s5j8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "208330382096-dirh84ott4cst572d4sld2trcqe9f8ps.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

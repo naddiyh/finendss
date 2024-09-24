@@ -28,14 +28,7 @@ fun SocialMedia(
         modifier = Modifier
             .clickable { onClick() }
             .padding(horizontal = 10.dp)
-
     ) {
         Image(painter = painterResource(id = icon), contentDescription = null, modifier = Modifier.size(25.dp))
     }
-
 }
-
-
-//fun Modifier.socialMedia() : Modifier = composed {
-//
-//}

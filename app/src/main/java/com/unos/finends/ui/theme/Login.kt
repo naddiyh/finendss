@@ -1,13 +1,11 @@
 package com.unos.finends.ui.theme
 
-import android.widget.Space
+
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -19,15 +17,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,15 +41,29 @@ import com.unos.finends.SocialMedia
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Login(){
+fun Login(
+    modifier: Modifier = Modifier,
+    onSignInClick: () -> Unit
+){
+    Row(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 20.dp, vertical = 45.dp),
+        horizontalArrangement = Arrangement.Start
+    ) {
+        Image(painter = painterResource(id = R.drawable.logo), contentDescription = "Logo Finends" ,
+        modifier = Modifier.size(25.dp))
+    }
     Column (
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 30.dp,),
+            .padding(horizontal = 25.dp,),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
-        Spacer(modifier = Modifier.height(60.dp))
+
+        Spacer(modifier = Modifier.height(40.dp))
+
         Text (text = "Log In", fontSize = 24.sp, fontWeight = FontWeight.Bold)
 
         Spacer(modifier = Modifier.height(30.dp))
@@ -62,17 +71,16 @@ fun Login(){
             modifier = Modifier.size(150.dp))
 
         Spacer(modifier = Modifier.height(50.dp))
-
-        Row(modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Start) {
-
-
-            Text(text = "Welcome Back,", fontSize = 16.sp, fontWeight = FontWeight.Light)
-        }
-        Spacer(modifier= Modifier.height(10.dp))
+//
+//        Row(modifier = Modifier.fillMaxWidth(),
+//            horizontalArrangement = Arrangement.Start) {
+//            Text(text = "Welcome Back,", fontSize = 16.sp, fontWeight = FontWeight.Light)
+//        }
+//        Spacer(modifier= Modifier.height(10.dp))
 
 
         LoginSection()
+
         Spacer(modifier= Modifier.height(35.dp))
         Column (
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -84,44 +92,43 @@ fun Login(){
             ) {
                 HorizontalDivider(
                     modifier = Modifier.weight(1f),
-                    thickness = 0.6.dp,
+                    thickness = 0.5.dp,
                     color = Color.Gray
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(text = "or login with")
+                Text(text = "or login with", fontSize = 14.sp)
                 Spacer(modifier = Modifier.width(8.dp))
                 HorizontalDivider(
-                    modifier = Modifier.weight(1f), thickness = 0.6.dp,
+                    modifier = Modifier.weight(1f), thickness = 0.5.dp,
                     color = Color.Gray
                 )}
             Spacer(modifier = Modifier.height(25.dp))
             Row (
-                modifier = Modifier.fillMaxWidth(),
+
                 horizontalArrangement = Arrangement.Center
             ){
                 SocialMedia(icon = R.drawable.google ) {
-
+                    onSignInClick()
                 }
                 SocialMedia(icon = R.drawable.facebook) {
+                    onSignInClick()
                 }
-
             }
         }
-
         Box(
-            modifier = Modifier.fillMaxHeight(fraction = 0.6f),
+            modifier = Modifier.fillMaxHeight(fraction = 0.3f),
             contentAlignment = Alignment.BottomCenter
         ) {
-
 
             Text(text = buildAnnotatedString {
                 withStyle(
                     style = SpanStyle(
-                        color = YelGreen,
+                        color = Color.Gray,
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Normal
                     )
                 )
+
                 {
                     append(" Don't have an account yet? ")
                 }
@@ -135,8 +142,6 @@ fun Login(){
                     append("Sign in")
                 }
             }
-
-
             )
         }
     }}
@@ -147,18 +152,18 @@ private fun LoginSection() {
         onValueChange = {},
         label = { Text(text = "Email") },
         modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(12.dp),
         colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = YelGreen
         )
     )
-
     Spacer(modifier = Modifier.height(10.dp))
-
     OutlinedTextField(
         value = "",
         onValueChange = {},
         label = { Text(text = "Password") },
         modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(12.dp),
         colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = YelGreen
         ),
@@ -168,7 +173,22 @@ private fun LoginSection() {
                 contentDescription = "Password Icon", modifier = Modifier.size(20.dp)
             )
         })
+
+
+    Spacer (modifier = Modifier.height(25.dp))
+    Button(onClick = {  },
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(12.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = YelGreen,
+        )
+    )
+    {
+        Text(text = "Login")
+
+    }
 }
+
 
 
 
