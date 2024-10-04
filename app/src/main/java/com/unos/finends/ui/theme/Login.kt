@@ -103,8 +103,8 @@ fun Login(
                     color = Color.Gray
                 )}
             Spacer(modifier = Modifier.height(25.dp))
-            Row (
 
+            Row (
                 horizontalArrangement = Arrangement.Center
             ){
                 SocialMedia(icon = R.drawable.google ) {
@@ -115,6 +115,7 @@ fun Login(
                 }
             }
         }
+
         Box(
             modifier = Modifier.fillMaxHeight(fraction = 0.3f),
             contentAlignment = Alignment.BottomCenter
