@@ -7,6 +7,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.credentials.ClearCredentialStateRequest
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -16,6 +17,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
+import com.unos.finends.ui.theme.BottomNavbar
 import com.unos.finends.ui.theme.FinendsTheme
 import com.unos.finends.ui.theme.HomeScreen
 import com.unos.finends.ui.theme.Login
@@ -25,17 +27,16 @@ const val WEB_CLIENT_ID = "208330382096-dirh84ott4cst572d4sld2trcqe9f8ps.apps.go
 enum class Screen{
     Login,Home
 }
-private lateinit var auth: FirebaseAuth
+
+lateinit var auth: FirebaseAuth
 
 @Composable
 fun LoginActivity (){
     auth = Firebase.auth
     FinendsTheme{
-
         val navController = rememberNavController()
         val context = LocalContext.current
         val scope = rememberCoroutineScope()
-
         val credentialManager = CredentialManager.create(context)
         val startDestination  = if(auth.currentUser == null) Screen.Login.name else
             Screen.Home.name
@@ -83,8 +84,6 @@ fun LoginActivity (){
                         }}
                 )
             }
-
-
             composable(Screen.Home.name){
                 HomeScreen(currentUser = auth.currentUser,
                     onSignOutClick = {
@@ -96,7 +95,9 @@ fun LoginActivity (){
                         }
                         navController.popBackStack()
                         navController.navigate(Screen.Login.name)
-                    })
+                    }
+                )
+//                BottomNavbar(navController = navController)
             }
         }
     }
