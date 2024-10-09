@@ -2,6 +2,7 @@ package com.unos.finends
 
 import android.widget.Toast
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.credentials.ClearCredentialStateRequest
@@ -17,6 +18,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
+import com.unos.finends.screen.SplashScreen
 import com.unos.finends.ui.theme.BottomNavbar
 import com.unos.finends.ui.theme.FinendsTheme
 import com.unos.finends.ui.theme.HomeScreen
@@ -36,13 +38,23 @@ lateinit var auth: FirebaseAuth
 fun LoginActivity() {
     auth = FirebaseAuth.getInstance()
     FinendsTheme {
+
         val navController = rememberNavController()
         val context = LocalContext.current
         val scope = rememberCoroutineScope()
         val credentialManager = CredentialManager.create(context)
         val startDestination = if (auth.currentUser == null) Screen.Login.name else Screen.Home.name
 
-        NavHost(navController = navController, startDestination = startDestination) {
+        NavHost(navController = navController, startDestination = "SplashScreen") {
+            composable("SplashScreen") {
+                SplashScreen()
+                LaunchedEffect(key1 = true) {
+                    kotlinx.coroutines.delay(1500)
+                    val startDestination = if (auth.currentUser == null) Screen.Login.name else Screen.Home.name
+                    navController.popBackStack()
+                    navController.navigate(startDestination)
+                }
+            }
             composable(Screen.Login.name) {
                 Login(
                     onSignInClick = {

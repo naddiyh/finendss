@@ -94,4 +94,9 @@ dependencies {
     implementation ("androidx.credentials:credentials-play-services-auth:1.2.2")
     implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
     implementation("com.google.firebase:firebase-analytics")
+
+    //animation
+    implementation ("androidx.navigation:navigation-compose:2.5.0")
+    implementation ("androidx.compose.animation:animation:1.5.0") 
+
 }

@@ -18,7 +18,6 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun SplashScreen() {
-    // Gradient background from lime-green to light yellow
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -34,11 +33,11 @@ fun SplashScreen() {
             ),
         contentAlignment = Alignment.Center
     ) {
-        // Column to center the title and subtitle text
+
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // "Finends" title text
+
             BasicText(
                 text = "Finends",
                 modifier = Modifier.padding(bottom = 8.dp),
@@ -50,7 +49,6 @@ fun SplashScreen() {
                     textAlign = TextAlign.Center
                 )
             )
-            // "Finance and Friends" subtitle text
             BasicText(
                 text = "Finance and Friends",
                 style = androidx.compose.ui.text.TextStyle(
@@ -64,8 +62,4 @@ fun SplashScreen() {
     }
 }
 
-@Preview
-@Composable
-fun PreviewSplashScreen() {
-    SplashScreen()
-}
+
