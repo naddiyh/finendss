@@ -1,7 +1,10 @@
 package com.unos.finends.ui.theme
 
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.Arrangement
@@ -14,6 +17,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -26,24 +30,31 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.unos.finends.R
+import com.unos.finends.Screen
 import com.unos.finends.SocialMedia
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Login(
+
     modifier: Modifier = Modifier,
-    onSignInClick: () -> Unit
+    onSignInClick: () -> Unit,
+    onNavigateToSignUp: () -> Unit
 ){
     Row(
         modifier = Modifier
@@ -63,9 +74,7 @@ fun Login(
     ){
 
         Spacer(modifier = Modifier.height(40.dp))
-
         Text (text = "Log In", fontSize = 24.sp, fontWeight = FontWeight.Bold)
-
         Spacer(modifier = Modifier.height(30.dp))
         Image(painter = painterResource(id = R.drawable.login) , contentDescription = "Login Image",
             modifier = Modifier.size(150.dp))
@@ -96,7 +105,7 @@ fun Login(
                     color = Color.Gray
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(text = "or login with", fontSize = 14.sp)
+                Text(text = "or login with", fontSize = 14.sp, color = Color.LightGray)
                 Spacer(modifier = Modifier.width(8.dp))
                 HorizontalDivider(
                     modifier = Modifier.weight(1f), thickness = 0.5.dp,
@@ -121,60 +130,95 @@ fun Login(
             contentAlignment = Alignment.BottomCenter
         ) {
 
-            Text(text = buildAnnotatedString {
-                withStyle(
-                    style = SpanStyle(
+            Row {
+                Text(
+                    text = "Don't have an account yet? ",
+                    style = TextStyle(
                         color = Color.Gray,
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Normal
                     )
                 )
 
-                {
-                    append(" Don't have an account yet? ")
-                }
-                withStyle(
-                    style = SpanStyle(
+                Text(
+                    text = "Sign in",
+                    style = TextStyle(
                         color = YelGreen,
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Medium
-                    )
-                ) {
-                    append("Sign in")
-                }
+                    ),
+                    modifier = Modifier .clickable {
+                        onNavigateToSignUp()
+                    }
+                )
             }
-            )
         }
     }}
 
 @Composable
 private fun LoginSection() {
-    OutlinedTextField(value = "",
+    OutlinedTextField(
+        value = "",
         onValueChange = {},
-        label = { Text(text = "Email") },
-        modifier = Modifier.fillMaxWidth(),
+        label = { Text(text = "Email", fontSize = 14.sp, color = Color.LightGray) },
+        modifier = Modifier
+            .fillMaxWidth()
+            .drawBehind {
+                val strokeWidth = 1.dp.toPx()
+                val y = size.height - strokeWidth / 2
+                drawLine(
+                    color = Color.LightGray,
+                    start = Offset(2f, y),
+                    end = Offset(size.width, y),
+                    strokeWidth = strokeWidth
+                )
+            },
         shape = RoundedCornerShape(12.dp),
         colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = YelGreen
-        )
+            focusedBorderColor = Color.Transparent,
+            unfocusedBorderColor = Color.Transparent,
+            disabledBorderColor = Color.Transparent
+        ),
     )
+
     Spacer(modifier = Modifier.height(10.dp))
     OutlinedTextField(
         value = "",
         onValueChange = {},
-        label = { Text(text = "Password") },
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(12.dp),
+        label = { Text(text = "Password", fontSize = 14.sp, color = Color.LightGray) },
+        modifier = Modifier
+            .fillMaxWidth()
+            .drawBehind {
+                val strokeWidth = 1.dp.toPx()
+                val width = size.width
+                val height = size.height
+                drawLine(
+                    color = Color.LightGray,
+                    start = Offset(0f, height),
+                    end = Offset(width, height),
+                    strokeWidth = strokeWidth
+                )
+            },
+        shape = RoundedCornerShape(bottomStart = 15.dp, bottomEnd = 15.dp),
         colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = YelGreen
+            focusedBorderColor = Color.Transparent,
+            unfocusedBorderColor = Color.Transparent
         ),
         trailingIcon = {
             Icon(
                 painter = painterResource(id = R.drawable.password),
-                contentDescription = "Password Icon", modifier = Modifier.size(20.dp)
+                contentDescription = "Password Icon",
+                modifier = Modifier.size(20.dp)
             )
-        })
-
+        }
+    )
+    Spacer (modifier = Modifier.height(10.dp))
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.End
+    ) {
+        Text(text = "Forget password?", color = Color.LightGray, fontSize = 12.sp,  style = TextStyle(textDecoration = TextDecoration.Underline) )
+    }
 
     Spacer (modifier = Modifier.height(25.dp))
     Button(onClick = {  },

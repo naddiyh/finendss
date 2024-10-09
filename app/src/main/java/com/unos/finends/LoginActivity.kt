@@ -21,32 +21,32 @@ import com.unos.finends.ui.theme.BottomNavbar
 import com.unos.finends.ui.theme.FinendsTheme
 import com.unos.finends.ui.theme.HomeScreen
 import com.unos.finends.ui.theme.Login
+import com.unos.finends.ui.theme.SignUp
 import kotlinx.coroutines.launch
 
 const val WEB_CLIENT_ID = "208330382096-dirh84ott4cst572d4sld2trcqe9f8ps.apps.googleusercontent.com"
 enum class Screen{
-    Login,Home
+    Login,Home, SignUp
 }
 
 lateinit var auth: FirebaseAuth
 
 @Composable
-fun LoginActivity (){
-    auth = Firebase.auth
-    FinendsTheme{
+
+fun LoginActivity() {
+    auth = FirebaseAuth.getInstance()
+    FinendsTheme {
         val navController = rememberNavController()
         val context = LocalContext.current
         val scope = rememberCoroutineScope()
         val credentialManager = CredentialManager.create(context)
-        val startDestination  = if(auth.currentUser == null) Screen.Login.name else
-            Screen.Home.name
+        val startDestination = if (auth.currentUser == null) Screen.Login.name else Screen.Home.name
 
-        NavHost(navController = navController,
-            startDestination = startDestination ){
-
+        NavHost(navController = navController, startDestination = startDestination) {
             composable(Screen.Login.name) {
-                Login (
+                Login(
                     onSignInClick = {
+                        // Logika sign-in dengan Google
                         val googleIdOption = GetGoogleIdOption.Builder()
                             .setFilterByAuthorizedAccounts(false)
                             .setServerClientId(WEB_CLIENT_ID)
@@ -56,7 +56,6 @@ fun LoginActivity (){
                             .addCredentialOption(googleIdOption)
                             .build()
 
-
                         scope.launch {
                             try {
                                 val result = credentialManager.getCredential(context = context, request = request)
@@ -64,43 +63,42 @@ fun LoginActivity (){
 
                                 val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
                                 val googleIdToken = googleIdTokenCredential.idToken
-                                val firebaseCredential =
-                                    GoogleAuthProvider.getCredential(googleIdToken, null)
+                                val firebaseCredential = GoogleAuthProvider.getCredential(googleIdToken, null)
+
                                 auth.signInWithCredential(firebaseCredential)
-                                    .addOnCompleteListener { task -> if(task.isSuccessful){
-                                        navController.popBackStack()
-                                        navController.navigate(Screen.Home.name)
-                                    }
+                                    .addOnCompleteListener { task ->
+                                        if (task.isSuccessful) {
+                                            navController.popBackStack()
+                                            navController.navigate(Screen.Home.name)
+                                        }
                                     }
 
                             } catch (e: Exception) {
-                                Toast.makeText(
-                                    context,
-                                    "Error: ${e.message}",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
                                 e.printStackTrace()
                             }
-                        }}
+                        }
+                    },
+                    onNavigateToSignUp = {
+                        navController.navigate(Screen.SignUp.name)
+                    }
                 )
             }
-            composable(Screen.Home.name){
+            composable(Screen.SignUp.name) {
+                SignUp(navController = navController)
+            }
+            composable(Screen.Home.name) {
                 HomeScreen(currentUser = auth.currentUser,
                     onSignOutClick = {
                         auth.signOut()
                         scope.launch {
-                            credentialManager.clearCredentialState(
-                                ClearCredentialStateRequest()
-                            )
+                            credentialManager.clearCredentialState(ClearCredentialStateRequest())
                         }
                         navController.popBackStack()
                         navController.navigate(Screen.Login.name)
                     }
                 )
-//                BottomNavbar(navController = navController)
             }
         }
     }
-
-
 }

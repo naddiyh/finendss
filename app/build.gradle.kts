@@ -5,14 +5,14 @@ plugins {
 }
 
 android {
-    signingConfigs {
-        getByName("debug") {
-            storeFile = file("C:\\Users\\ASUS\\Documents\\KeyStoreFinends\\keystore.jks")
-            storePassword = "shalatberjaya"
-            keyAlias = "keyfinends"
-            keyPassword = "shalatberjaya"
-        }
-    }
+//    signingConfigs {
+//        getByName("debug") {
+//            storeFile = file("C:\\Users\\ASUS\\Documents\\KeyStoreFinends\\keystore.jks")
+//            storePassword = "shalatberjaya"
+//            keyAlias = "keyfinends"
+//            keyPassword = "shalatberjaya"
+//        }
+//    }
     namespace = "com.unos.finends"
     compileSdk = 34
 

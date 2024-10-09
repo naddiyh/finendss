@@ -17,6 +17,7 @@
     import androidx.compose.foundation.rememberScrollState
     import androidx.compose.foundation.shape.RoundedCornerShape
     import androidx.compose.foundation.verticalScroll
+    import androidx.compose.material3.Button
     import androidx.compose.material3.Scaffold
     import androidx.compose.material3.Surface
     import androidx.compose.material3.Text
@@ -116,12 +117,12 @@
                             }
                         }
 
-    //                Button(onClick = { onSignOutClick() }) {
-    //                    Text(text = "Sign Out",
-    //                        style = textStyle.copy( fontSize = 12.sp,
-    //                            fontWeight = FontWeight.Normal
-    //                        ))
-    //                }
+                    Button(onClick = { onSignOutClick() }) {
+                        Text(text = "Sign Out",
+                            style = textStyle.copy( fontSize = 12.sp,
+                                fontWeight = FontWeight.Normal
+                            ))
+                    }
 
                     }
 
