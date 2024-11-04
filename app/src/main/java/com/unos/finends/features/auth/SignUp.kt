@@ -73,7 +73,7 @@ fun SignUpScreen(
             )
 
             Column(modifier = modifier) {
-                // Username field
+
                 OutlinedTextField(
                     value = signInData.username,
                     onValueChange = { signInViewModel.onUsernameChanged(it) },

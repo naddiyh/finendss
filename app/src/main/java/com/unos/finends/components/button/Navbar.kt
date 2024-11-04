@@ -45,7 +45,7 @@ import com.unos.finends.ui.theme.YelGreen
                 Icon(
                     painter = painterResource(R.drawable.iconhome),
                     contentDescription = "Home",
-                    modifier = Modifier.size(23.dp),
+                    modifier = Modifier.size(24.dp),
                     tint = Color.Unspecified
                 )
             }
@@ -53,7 +53,7 @@ import com.unos.finends.ui.theme.YelGreen
                 Icon(
                     painter = painterResource(R.drawable.history),
                     contentDescription = "History",
-                    modifier = Modifier.size(23.dp),
+                    modifier = Modifier.size(24.dp),
                     tint = Color.Unspecified
                 )
             }
@@ -61,7 +61,7 @@ import com.unos.finends.ui.theme.YelGreen
                 Icon(
                     painter = painterResource(R.drawable.statis),
                     contentDescription = "Statistic",
-                    modifier = Modifier.size(23.dp),
+                    modifier = Modifier.size(24.dp),
                     tint = Color.Unspecified
                 )
             }
@@ -70,7 +70,7 @@ import com.unos.finends.ui.theme.YelGreen
                 Icon(
                     painter = painterResource(R.drawable.userr),
                     contentDescription = "Profile",
-                    modifier = Modifier.size(23.dp),
+                    modifier = Modifier.size(24.dp),
                     tint = Color.Unspecified
                 )
             }

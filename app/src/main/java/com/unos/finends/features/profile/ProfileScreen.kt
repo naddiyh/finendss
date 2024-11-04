@@ -1,6 +1,7 @@
 package com.unos.finends.features.profile
 
 import InfoPersonal
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,23 +39,23 @@ import com.google.firebase.auth.FirebaseUser
 import com.unos.finends.R
 import com.unos.finends.components.button.Bottom
 import com.unos.finends.core.navigation.NavigationItems
+import com.unos.finends.ui.theme.SoftGray
 import com.unos.finends.ui.theme.SoftJade
+import com.unos.finends.ui.theme.White
 import com.unos.finends.ui.theme.YelGreen
 
 @Composable
 fun ProfileScreen (modifier: Modifier = Modifier,
                    navController: NavHostController, currentUser: FirebaseUser?,){
     Surface(modifier = Modifier
-        .fillMaxSize()
+        .fillMaxSize()  ,color = White
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
-
             Column(
                 modifier = Modifier
                     .fillMaxHeight()
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp, vertical = 60.dp),
-
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
@@ -65,7 +67,9 @@ fun ProfileScreen (modifier: Modifier = Modifier,
                      ,
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                    Column() {
+                    Column( horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                        modifier = Modifier.fillMaxWidth()) {
 
 
                     currentUser?.let { user ->
@@ -77,28 +81,35 @@ fun ProfileScreen (modifier: Modifier = Modifier,
                                     .build(),
                                 contentDescription = "User Photo",
                                 modifier = Modifier
-                                    .size(40.dp)
+                                    .size(90.dp)
                                     .clip(RoundedCornerShape(99.dp)),
                                 contentScale = ContentScale.Crop
                             )
                             Spacer(modifier = Modifier.size(16.dp))
                         }
+                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically){
+
                         user.displayName?.let { name ->
                             Text(
-                                text = "hay$name",
+                                text = "$name",
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                                 fontSize = 16.sp,
+                                fontWeight = FontWeight.Medium,
                                 color = SoftJade,
                             )
-                            Spacer(modifier = Modifier.size(16.dp))
+                            Spacer(modifier = Modifier.size(10.dp))
                         }
+                        Image(  painter = painterResource(id = R.drawable.editprof), contentDescription = "edit profile",    modifier = Modifier.size(18.dp))
+
+                        }
+                        Spacer(modifier = Modifier.size(20.dp))
+                        InfoPersonal(
+                            name = user.displayName ?: "Anonymous",
+                            phone = 1234567890,
+                            email = user.email ?: "No Email Provided",
+                            country = "South Korea")
                     }}
-                    InfoPersonal(
-                        name = "John Doe",
-                        phone = 1234567890,
-                        email = "ss",
-                        country = "Country Name")
 
                     Notification()
                     Settings()

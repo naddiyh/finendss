@@ -22,9 +22,9 @@ import com.unos.finends.ui.theme.YelGreen
 
 @Composable
 fun Category(
-    onAllClick: () -> Unit = { /* Default action for "All" */ },
-    onHolidaysClick: () -> Unit = { /* Default action for "Holidays" */ },
-    onCarsClick: () -> Unit = { /* Default action for "Cars" */ }
+    onAllClick: () -> Unit = {  },
+    onHolidaysClick: () -> Unit = {  },
+    onCarsClick: () -> Unit = {  }
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),

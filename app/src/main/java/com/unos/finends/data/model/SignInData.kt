@@ -6,4 +6,5 @@ data class SignInData (
     val password : String = "",
     val username : String = "",
     val confirmPassword : String = "",
+//    val phone : Int  ,
 )
