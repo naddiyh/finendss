@@ -21,6 +21,7 @@ firebaseAuth = "23.0.0"
 firebaseFirestoreKtx = "25.1.0"
 roomKtx = "2.6.1"
 runtimeLivedata = "1.7.4"
+composeMaterial = "1.4.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -52,6 +53,7 @@ firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version
 firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
 androidx-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtimeLivedata" }
+androidx-compose-material = { group = "androidx.wear.compose", name = "compose-material", version.ref = "composeMaterial" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

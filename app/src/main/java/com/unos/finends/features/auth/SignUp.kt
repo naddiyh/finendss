@@ -24,6 +24,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import com.unos.finends.Screen
+import com.unos.finends.data.model.AuthState
 import com.unos.finends.data.model.LoginViewModel
 import com.unos.finends.ui.theme.YelGreen
 
@@ -73,7 +74,6 @@ fun SignUpScreen(
             )
 
             Column(modifier = modifier) {
-
                 OutlinedTextField(
                     value = signInData.username,
                     onValueChange = { signInViewModel.onUsernameChanged(it) },
@@ -218,7 +218,7 @@ fun SignUpScreen(
             Button(
                 onClick = {
                     signInViewModel.signIn()
-                    navController.navigate(Screen.Home.name)
+                    if(signInViewModel.authState is AuthState.Authenticated){navController.navigate(Screen.Home.name)}
                 },
                 modifier = Modifier.fillMaxWidth(),
                 enabled = !isLoading,
@@ -273,7 +273,6 @@ fun SignUpScreen(
                             fontWeight = FontWeight.Normal
                         )
                     )
-
                     Text(
                         text = "Login",
                         style = TextStyle(

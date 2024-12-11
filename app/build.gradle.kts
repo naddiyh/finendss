@@ -18,7 +18,7 @@ android {
 
     defaultConfig {
         applicationId = "com.unos.finends"
-        minSdk = 24
+        minSdk = 25
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -78,6 +78,7 @@ dependencies {
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.runtime.livedata)
+    implementation(libs.androidx.compose.material)
     testImplementation(libs.junit)
     implementation(libs.androidx.navigation.compose)
     androidTestImplementation(libs.androidx.junit)
@@ -103,6 +104,12 @@ dependencies {
 
     //animation
     implementation ("androidx.navigation:navigation-compose:2.5.0")
-    implementation ("androidx.compose.animation:animation:1.5.0") 
+    implementation ("androidx.compose.animation:animation:1.5.0")
+
+
+    //slide
+    implementation ("com.google.accompanist:accompanist-pager:0.28.0")
+    implementation ("com.google.accompanist:accompanist-pager-indicators:0.28.0")
+
 
 }

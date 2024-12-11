@@ -13,26 +13,33 @@ class LoginViewModel : ViewModel() {
     var authState by mutableStateOf<AuthState>(AuthState.Unauthenticated)
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
-
+    fun updateAuthState(newState: AuthState) {
+        authState = newState
+    }
+    // Method untuk update email
     fun onEmailChanged(newEmail: String) {
         loginData = loginData.copy(email = newEmail)
     }
 
+    // Method untuk update password
     fun onPasswordChanged(newPassword: String) {
         loginData = loginData.copy(password = newPassword)
     }
 
+    // Fungsi login
     fun login() {
         isLoading = true
         val email = loginData.email
         val password = loginData.password
 
+        // Cek jika email atau password kosong
         if (email.isEmpty() || password.isEmpty()) {
             updateAuthState(AuthState.Error("Email or password cannot be empty"))
             isLoading = false
             return
         }
 
+        // Lakukan login dengan Firebase
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 isLoading = false
@@ -44,7 +51,5 @@ class LoginViewModel : ViewModel() {
             }
     }
 
-    private fun updateAuthState(newState: AuthState) {
-        authState = newState
-    }
+
 }

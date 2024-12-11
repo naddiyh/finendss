@@ -49,18 +49,18 @@ fun InfoPersonal(name: String, email: String, phone: Int, country: String) {
                 Text(text = name, fontSize = 14.sp , color = Color.Gray) // Removed the dollar sign for direct interpolation
 
             }
-            Divider(color = SoftGray, thickness = 0.6.dp)
+            HorizontalDivider(thickness = 0.4.dp, color = SoftGray)
 
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(text = "Email Address", fontSize = 14.sp, )
                 Text(text = " $email", fontSize = 14.sp, color = Color.Gray)
             }
-            Divider(color = SoftGray, thickness = 0.6.dp)
+            HorizontalDivider(thickness = 0.4.dp, color = SoftGray)
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(text = "Phone Number", fontSize = 14.sp, )
                 Text(text = phone.toString(), fontSize = 14.sp,  color = Color.Gray)
             }
-            Divider(color = SoftGray, thickness = 0.6.dp)
+            HorizontalDivider(thickness = 0.4.dp, color = SoftGray)
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(text = "Country", fontSize = 14.sp)
                 Text(text = country, fontSize = 14.sp,  color = Color.Gray)

@@ -10,6 +10,6 @@ sealed class NavigationItems(
 ) {
     object Home : NavigationItems("Home", "home", R.drawable.iconhome)
     object History : NavigationItems("History", "history", R.drawable.history)
-    object Statistic : NavigationItems("Statistic", "statistic", R.drawable.userr)
+    object Bucket : NavigationItems("Bucket", "bucket", R.drawable.userr)
     object Profile : NavigationItems("Profile", "profile", R.drawable.userr)
 }

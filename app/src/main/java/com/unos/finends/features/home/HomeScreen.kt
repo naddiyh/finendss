@@ -2,6 +2,7 @@
 
     import androidx.compose.foundation.Image
     import androidx.compose.foundation.background
+    import androidx.compose.foundation.clickable
     import androidx.compose.foundation.layout.Arrangement
     import androidx.compose.foundation.layout.Box
     import androidx.compose.foundation.layout.Column
@@ -13,15 +14,21 @@
     import androidx.compose.foundation.layout.height
     import androidx.compose.foundation.layout.padding
     import androidx.compose.foundation.layout.size
+    import androidx.compose.foundation.layout.width
+    import androidx.compose.foundation.pager.rememberPagerState
     import androidx.compose.foundation.rememberScrollState
+    import androidx.compose.foundation.shape.CircleShape
     import androidx.compose.foundation.shape.RoundedCornerShape
     import androidx.compose.foundation.verticalScroll
-    import androidx.compose.material3.Button
     import androidx.compose.material3.Icon
     import androidx.compose.material3.IconButton
     import androidx.compose.material3.Surface
     import androidx.compose.material3.Text
     import androidx.compose.runtime.Composable
+    import androidx.compose.runtime.getValue
+    import androidx.compose.runtime.mutableStateOf
+    import androidx.compose.runtime.remember
+    import androidx.compose.runtime.setValue
     import androidx.compose.ui.Alignment
     import androidx.compose.ui.Modifier
     import androidx.compose.ui.draw.clip
@@ -32,7 +39,6 @@
     import androidx.compose.ui.res.painterResource
     import androidx.compose.ui.text.TextStyle
     import androidx.compose.ui.text.font.FontWeight
-    import androidx.compose.ui.text.style.TextOverflow
     import androidx.compose.ui.unit.dp
     import androidx.compose.ui.unit.sp
     import androidx.compose.ui.zIndex
@@ -42,11 +48,14 @@
     import coil.request.ImageRequest
     import com.unos.finends.R
     import com.unos.finends.components.button.Bottom
-    import com.unos.finends.core.navigation.NavigationItems
+    import com.unos.finends.components.button.Category
     import com.unos.finends.ui.theme.SoftJade
     import com.unos.finends.ui.theme.YelGreen
     import com.unos.finends.features.home.tracker.BoxTracker
+    import com.unos.finends.ui.theme.White
+    import com.google.accompanist.pager.*
 
+    @OptIn(ExperimentalPagerApi::class)
     @Composable
     fun HomeScreen(
         modifier: Modifier = Modifier,
@@ -58,30 +67,41 @@
             fontWeight = FontWeight.Medium,
             fontSize = 18.sp
         )
-
+        var showSignOutButton by remember { mutableStateOf(false) }
         Surface(
-            modifier = modifier.fillMaxSize(),
+            modifier = modifier.fillMaxSize(),color = White
+
         ) {
             Box(
                 modifier = Modifier.fillMaxSize(),
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.home),
-                    contentDescription = null,
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop
-                )
-                // Main content
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
+                        .padding(vertical = 50.dp)
                 ) {
-
-                    Column(modifier = Modifier.padding(horizontal = 25.dp, vertical = 50.dp)) {
+                    Column(modifier = Modifier.padding(horizontal = 25.dp)) {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween
                         ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.logo),
+                                contentDescription = "Logo",
+                                modifier = Modifier.size(25.dp)
+                            )
+
+                            Row ( verticalAlignment = Alignment.CenterVertically,){
+                                IconButton(onClick = {  }) {
+                                    Icon(
+                                        painter = painterResource(R.drawable.notif),
+                                        contentDescription = "Notif",
+                                        modifier = Modifier.size(25.dp),
+                                        tint = YelGreen
+                                    )
+                                }
+
                             currentUser?.let { user ->
                                 user.photoUrl?.let {
                                     AsyncImage(
@@ -91,81 +111,77 @@
                                             .build(),
                                         contentDescription = "User Photo",
                                         modifier = Modifier
-                                            .size(40.dp)
-                                            .clip(RoundedCornerShape(99.dp)),
-                                        contentScale = ContentScale.Crop
+                                            .size(35.dp)
+                                            .clip(RoundedCornerShape(99.dp))
+                                            .clickable {
+                                                showSignOutButton = !showSignOutButton
+                                            },
+//                                        contentScale = ContentScale.Crop
                                     )
-                                    Spacer(modifier = Modifier.size(16.dp))
-                                }
-                                user.displayName?.let { name ->
-                                    Text(
-                                        text = "Hello, $name!",
-                                        style = textStyle,
-                                        maxLines = 1,
-                                        overflow = TextOverflow.Ellipsis,
-                                        fontSize = 20.sp,
-                                        fontWeight = FontWeight.Bold,
-                                        color = SoftJade,
-                                    )
-                                    Spacer(modifier = Modifier.size(16.dp))
-                                }
+
+                                }}
+//                                user.displayName?.let { name ->
+//                                    Text(
+//                                        text = "$name",
+//                                        style = textStyle,
+//                                        maxLines = 1,
+//                                        overflow = TextOverflow.Ellipsis,
+//                                        fontSize = 16.sp,
+//                                        fontWeight = FontWeight.Bold,
+//                                        color = SoftJade,
+//                                    )
+//                                    Spacer(modifier = Modifier.size(16.dp))
+//                                }
+                                if (showSignOutButton){
+
+
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxWidth(0.6f)
+                                            .fillMaxHeight(0.04f)
+                                            .clickable { onSignOutClick() }
+                                            .shadow(
+                                                elevation = 18.dp,
+                                                shape = RoundedCornerShape(6.dp),
+                                                clip = false,
+                                                spotColor = Color.Black.copy(alpha = 0.1f)
+                                            )
+                                            .background(Color.White, RoundedCornerShape(6.dp)),
+                                        contentAlignment = Alignment.Center,
+                                    ) {
+                                        Text(
+                                            text = "Sign Out",
+                                            style = textStyle.copy(
+                                                fontSize = 12.sp,
+                                                fontWeight = FontWeight.Normal
+                                            ),
+                                            color = Color.Black
+                                        )
+
+                                }  }
                             }
 
-                            Button(onClick = { onSignOutClick() }) {
-                                Text(
-                                    text = "Sign Out",
-                                    style = textStyle.copy(
-                                        fontSize = 12.sp,
-                                        fontWeight = FontWeight.Normal
-                                    )
-                                )
-                            }
                         }
-                        Spacer(modifier = Modifier.height(10.dp))
+                        Spacer(modifier = Modifier.height(15.dp))
                         Text(
                             text = "See your current financial situation here",
                             fontSize = 14.sp,
                             color = SoftJade
                         )
-                        Spacer(modifier = Modifier.height(25.dp))
-                        Column(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Text(
-                                text = "Current Balance",
-                                fontSize = 16.sp,
-                                color = Color.White,
-                                fontWeight = FontWeight.Medium
-                            )
-                            Spacer(modifier = Modifier.height(15.dp))
-                            Text(
-                                text = "Rp 20.000.000,00",
-                                fontSize = 30.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                color = SoftJade,
-                            )
-                        }
+                        Spacer(modifier = Modifier.height(15.dp))
+                        SavingBalanceBox()
+
                     }
-                    Spacer(modifier = Modifier.height(5.dp))
+
                     // Box Tracker
                     Column(
                         modifier = Modifier
                             .fillMaxHeight()
                             .fillMaxWidth()
-                            .clip(
-                                RoundedCornerShape(topStart = 35.dp, topEnd = 35.dp)
-                            )
-                            .shadow(
-                                elevation = 20.dp,
-                                shape = RoundedCornerShape(topStart = 35.dp, topEnd = 35.dp),
-                                clip = false
-                            )
-                            .background(color = Color.White)
                     ) {
                         Column(
-                            modifier = Modifier
-                                .padding(horizontal = 20.dp)
+                            modifier = Modifier.fillMaxHeight()
+                                .padding(horizontal = 24.dp)
                         ) {
                             Spacer(modifier = Modifier.height(30.dp))
                             Text(
@@ -173,7 +189,8 @@
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.SemiBold
                             )
-                            Spacer(modifier = Modifier.height(20.dp))
+
+                            Spacer(modifier = Modifier.height(15.dp))
                             Category()
                             Spacer(modifier = Modifier.height(25.dp))
                             Column(
@@ -182,11 +199,42 @@
                                     .fillMaxHeight(),
                                 verticalArrangement = Arrangement.spacedBy(25.dp)
                             ) {
-                                BoxTracker(title = "HRV", totalAmount = "500.000", currentAmount = "4.000.000", progress = 0.6f,  imageResId = R.drawable.tes, onAddClick = {})
-                                BoxTracker(title = "Trip to Seoul", totalAmount = "3.000.000", currentAmount = "1.500.000", progress = 0.5f, imageResId = R.drawable.tes, onAddClick = {})
-                                BoxTracker(title = "HRV", totalAmount = "500.000", currentAmount = "4.000.000", progress = 0.6f, imageResId = R.drawable.tes, onAddClick = {})
-                                BoxTracker(title = "HRV", totalAmount = "500.000", currentAmount = "4.000.000", progress = 0.6f, imageResId = R.drawable.tes, onAddClick = {})
-                                BoxTracker(title = "HRV", totalAmount = "500.000", currentAmount = "4.000.000", progress = 0.6f, imageResId = R.drawable.tes, onAddClick ={} )
+                                BoxTracker(
+                                    title = "Mobil HRV",
+                                    totalAmount = "500.000",
+                                    currentAmount = "4.000.000",
+                                    progress = 0.6f,
+                                    imageResId = R.drawable.tes,
+                                    onAddClick = {
+                                        navController.navigate("AddSavingsScreen/HRV/4000000")
+                                    },
+                                    navController = navController,
+
+                                )
+                                BoxTracker(
+
+                                    totalAmount = "3.000.000",
+                                    currentAmount = "1.500.000",
+                                    progress = 0.5f,
+                                    imageResId = R.drawable.tes,
+                                    onAddClick = {
+                                        navController.navigate("AddSavingsScreen/Trip to Seoul/1500000")
+                                    },
+                                    navController = navController,
+
+                                    title = "Goes to Seoul",
+                                )
+                                BoxTracker( totalAmount = "500.000", currentAmount = "4.000.000", progress = 0.6f, imageResId = R.drawable.tes,   onAddClick = {
+                                    navController.navigate("AddSavingsScreen/Trip to Seoul/1500000")
+                                }, title = "Iphone 18 Max Pro",
+                                    navController = navController, )
+
+
+                                BoxTracker( totalAmount = "500.000", currentAmount = "4.000.000", progress = 0.6f, imageResId = R.drawable.tes,   onAddClick = {
+                                    navController.navigate("AddSavingsScreen/Trip to Seoul/1500000")
+                                }, title = "Cintanya",
+                                    navController = navController, )
+
 
                             }
                             Spacer(modifier = Modifier.height(25.dp))

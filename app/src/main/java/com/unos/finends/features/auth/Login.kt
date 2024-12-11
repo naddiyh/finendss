@@ -28,6 +28,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -49,7 +50,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.unos.finends.R
+import com.unos.finends.Screen
+import com.unos.finends.data.model.AuthState
 import com.unos.finends.data.model.LoginViewModel
 import com.unos.finends.data.model.SignInViewModel
 import com.unos.finends.ui.theme.YelGreen
@@ -63,11 +67,13 @@ fun Login(
     modifier: Modifier = Modifier,
     onSignInClick: () -> Unit,
     onNavigateToSignUp: () -> Unit,
-    loginViewModel: LoginViewModel = viewModel()
-){
+    loginViewModel: LoginViewModel = viewModel(),
+
+    navController: NavController // Pastikan navController ditambahkan
+) {
     val loginData = loginViewModel.loginData
     val isLoading = loginViewModel.isLoading
-
+    val authState = loginViewModel.authState
 
     Row(
         modifier = Modifier
@@ -75,22 +81,26 @@ fun Login(
             .padding(horizontal = 20.dp, vertical = 45.dp),
         horizontalArrangement = Arrangement.Start
     ) {
-        Image(painter = painterResource(id = R.drawable.logo), contentDescription = "Logo Finends" ,
-        modifier = Modifier.size(25.dp))
+        Image(
+            painter = painterResource(id = R.drawable.logo), contentDescription = "Logo Finends",
+            modifier = Modifier.size(25.dp)
+        )
     }
-    Column (
+    Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 25.dp,),
+            .padding(horizontal = 25.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
+    ) {
 
         Spacer(modifier = Modifier.height(40.dp))
-        Text (text = "Log In", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+        Text(text = "Log In", fontSize = 24.sp, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.height(30.dp))
-        Image(painter = painterResource(id = R.drawable.login) , contentDescription = "Login Image",
-            modifier = Modifier.size(150.dp))
+        Image(
+            painter = painterResource(id = R.drawable.login), contentDescription = "Login Image",
+            modifier = Modifier.size(150.dp)
+        )
         Spacer(modifier = Modifier.height(50.dp))
 //
 //        Row(modifier = Modifier.fillMaxWidth(),
@@ -100,21 +110,51 @@ fun Login(
 //        Spacer(modifier= Modifier.height(10.dp))
         LoginSection(loginViewModel = loginViewModel)
 
-        Button(onClick = { loginViewModel.login() },
+        Button(
+            onClick = {
+                loginViewModel.login()
+            },
             modifier = Modifier.fillMaxWidth(),
+            enabled = !isLoading,
             shape = RoundedCornerShape(12.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = YelGreen,
             )
-        ){
+        ) {
             Text(text = if (isLoading) "Loading..." else "Login")
         }
 
-        Spacer(modifier= Modifier.height(35.dp))
-        Column (
+
+        when (authState) {
+            is AuthState.Authenticated -> {
+                LaunchedEffect(Unit) {
+                    // Setelah login berhasil, navigasi ke Home screen
+                    navController.navigate(Screen.Home.name) {
+                        popUpTo(Screen.Login.name) { inclusive = true }
+                    }
+                }
+            }
+            is AuthState.Error -> {
+                Text(
+                    text = authState.message ?: "Unknown error",
+                    color = Color.Red,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(top = 10.dp)
+                )
+            }
+            else -> {
+                // Handle the case when the user is not authenticated yet
+            }
+        }
+
+
+
+        Spacer(modifier = Modifier.height(35.dp))
+        Column(
             horizontalAlignment = Alignment.CenterHorizontally,
 
-            ){
+            ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
@@ -130,13 +170,14 @@ fun Login(
                 HorizontalDivider(
                     modifier = Modifier.weight(1f), thickness = 0.5.dp,
                     color = Color.Gray
-                )}
+                )
+            }
             Spacer(modifier = Modifier.height(25.dp))
 
-            Row (
+            Row(
                 horizontalArrangement = Arrangement.Center
-            ){
-                SocialMedia(icon = R.drawable.google ) {
+            ) {
+                SocialMedia(icon = R.drawable.google) {
                     onSignInClick()
                 }
                 SocialMedia(icon = R.drawable.facebook) {
@@ -166,14 +207,15 @@ fun Login(
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Medium
                     ),
-                    modifier = Modifier .clickable {
+                    modifier = Modifier.clickable {
                         onNavigateToSignUp()
                     }
                 )
 
             }
         }
-    }}
+    }
+}
 
 @Composable
 private fun LoginSection(loginViewModel: LoginViewModel) {
@@ -211,7 +253,6 @@ private fun LoginSection(loginViewModel: LoginViewModel) {
             disabledBorderColor = Color.Transparent
         ),
     )
-
 
     Spacer(modifier = Modifier.height(10.dp))
     OutlinedTextField(
@@ -252,14 +293,19 @@ private fun LoginSection(loginViewModel: LoginViewModel) {
         }
     )
 
-    Spacer (modifier = Modifier.height(10.dp))
+    Spacer(modifier = Modifier.height(10.dp))
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.End
     ) {
-        Text(text = "Forget password?", color = Color.LightGray, fontSize = 12.sp,  style = TextStyle(textDecoration = TextDecoration.Underline) )
+        Text(
+            text = "Forget password?",
+            color = Color.LightGray,
+            fontSize = 12.sp,
+            style = TextStyle(textDecoration = TextDecoration.Underline)
+        )
     }
-    Spacer (modifier = Modifier.height(25.dp))
+    Spacer(modifier = Modifier.height(25.dp))
 
 }
 

@@ -17,7 +17,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.unos.finends.auth
 import com.unos.finends.features.history.HistoryScreen
 import com.unos.finends.features.profile.ProfileScreen
-import com.unos.finends.features.statistic.StatisticScreen
+import com.unos.finends.features.bucket.BucketScreen
 import com.unos.finends.features.home.HomeScreen
 
 @Composable
@@ -25,7 +25,7 @@ fun BottomNavigation(navController: NavHostController) {
     val navigationItems = listOf(
         NavigationItems.Home,
         NavigationItems.History,
-        NavigationItems.Statistic,
+        NavigationItems.Bucket,
         NavigationItems.Profile
     )
     Scaffold(
@@ -71,8 +71,8 @@ fun BottomNavigation(navController: NavHostController) {
                     onSignOutClick = { }
                 )
             }
-            composable(NavigationItems.Statistic.route) {
-                StatisticScreen( navController = navController)
+            composable(NavigationItems.Bucket.route) {
+               BucketScreen(navController = navController)
             }
             composable(NavigationItems.History.route) {
                 HistoryScreen(navController = navController)

@@ -36,6 +36,7 @@ class SignInViewModel : ViewModel() {
         isLoading = true
         val email = signInData.email
         val password = signInData.password
+        val username = signInData.username
 
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
@@ -43,8 +44,8 @@ class SignInViewModel : ViewModel() {
                 if (task.isSuccessful) {
                     val user: FirebaseUser? = task.result?.user
                     user?.let {
-                        saveUserData(it.uid, email, signInData.username, password) // Save username after registration
-                        updateAuthState(AuthState.Authenticated) // Update authentication state
+                        saveUserData(it.uid, email, username, password)
+                        updateAuthState(AuthState.Authenticated)
                     }
                 } else {
                     updateAuthState(AuthState.Error(task.exception?.message ?: "Sign-in failed"))
@@ -52,11 +53,11 @@ class SignInViewModel : ViewModel() {
             }
     }
 
-    private fun saveUserData(uid: String, email: String, username: String, password : String) {
+    private fun saveUserData(uid: String, email: String, username: String, password: String) {
         val user = hashMapOf(
             "email" to email,
             "username" to username,
-            "password" to password,
+            "password" to password
         )
 
         firestore.collection("users")

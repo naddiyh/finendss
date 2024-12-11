@@ -3,6 +3,7 @@ package com.unos.finends.features.home.tracker
 import ProgressBarWithLabel
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,7 +20,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.unos.finends.R
+import com.unos.finends.features.home.AddSavingsScreen
+
 
 @Composable
 fun BoxTracker(
@@ -28,7 +32,8 @@ fun BoxTracker(
     currentAmount: String,
     progress: Float,
     imageResId: Int,
-    onAddClick: () -> Unit
+    onAddClick: () -> Unit,
+    navController: NavHostController,
 ) {
     Column(
         modifier = Modifier
@@ -65,24 +70,22 @@ fun BoxTracker(
 //                    }
 //                }
             }
-            Column (
-
+            Row (modifier = Modifier.fillMaxHeight(), horizontalArrangement = Arrangement.spacedBy(10.dp)
             ){
-
-//            OutlinedButton(
-//                onClick = {},
-//                modifier = Modifier
-//                    .size(40.dp)
-//                    .padding(start = 10.dp),
-//                shape = CircleShape
-//            ) {
-//                Text(text = "+", fontSize = 24.sp, fontWeight = FontWeight.Bold)
-//            }
                 Image(
                     modifier = Modifier
                         .size(28.dp)
                         .padding(start = 10.dp),
                     painter = painterResource(id = R.drawable.pin) ,
+                    contentDescription = null
+                )
+                Image(
+                    modifier = Modifier
+                        .size(28.dp)
+                        .clickable {
+                            navController.navigate("AddSavingsScreen/goalName/currentAmount")
+                        },
+                    painter = painterResource(id = R.drawable.add),
                     contentDescription = null
                 )
 
